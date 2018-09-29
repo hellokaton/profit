@@ -1,0 +1,15 @@
+language: java
+
+jdk:
+- oraclejdk8
+
+notifications:
+  email: false
+
+sudo: false
+
+before_install:
+- export TZ='Asia/Shanghai'
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)
