@@ -2,7 +2,8 @@
 
 向导式安装，一个脚本搞定「打赏」系统。
 
-> 开发中... 发布后会更新具体的使用文档和教程。 
+> 开发中... 发布后会更新具体的使用文档和教程。
+> 有任何问题请发 [issue](https://github.com/biezhi/make-money/issues/new)，注意逻辑清晰！ 
 
 [![Build Status](https://travis-ci.org/biezhi/make-money.svg?branch=master)](https://travis-ci.org/biezhi/make-money)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/90131b314c8e40a090444ad06424fad1)](https://www.codacy.com/app/biezhi/make-money?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=biezhi/make-money&amp;utm_campaign=Badge_Grade)
