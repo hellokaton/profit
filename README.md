@@ -1,5 +1,7 @@
 # 在线打赏系统
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/74f1665c3d2a485ea917ebdbe9faf689)](https://app.codacy.com/app/biezhi/make-money?utm_source=github.com&utm_medium=referral&utm_content=biezhi/make-money&utm_campaign=Badge_Grade_Dashboard)
+
 向导式安装，一个脚本搞定「打赏」系统。
 
 > 开发中... 发布后会更新具体的使用文档和教程。 
