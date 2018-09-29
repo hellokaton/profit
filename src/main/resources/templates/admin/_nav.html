@@ -1,0 +1,35 @@
+<nav>
+    <a href="/admin/index" class="brand">
+        <img class="logo" src="/static/img/logo.png"/>
+        <span>biezhi 打赏系统</span>
+    </a>
+
+    <div class="menu">
+        <button class="error" for="modal_1" onclick="showUpdatePwd()">修改密码</button>
+        <!--<label for="modal_1" class="button">Show modal</label>-->
+
+        <a href="/admin/orders" class="button">查看订单</a>
+        <a href="/" target="_blank" class="button success">查看网站</a>
+        <a href="/admin/logout" class="pseudo button">注销</a>
+    </div>
+</nav>
+
+<div class="modal">
+    <input id="modal_1" type="checkbox" />
+    <label for="modal_1" class="overlay"></label>
+    <article>
+        <header>
+            <h3>Great offer</h3>
+            <label for="modal_1" class="close">&times;</label>
+        </header>
+        <section class="content">
+            We have a special offer for you. I am sure you will love it! However this does look spammy...
+        </section>
+        <footer>
+            <a class="button" href="#">See offer</a>
+            <label for="modal_1" class="button dangerous">
+                Cancel
+            </label>
+        </footer>
+    </article>
+</div>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="${_csrf_token}" name="csrf_token"/>
+    <title>Make Money 应用初始化</title>
+    <link href="//cdn.bootcss.com/picnic/6.5.0/picnic.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/picnic/6.5.0/plugins.min.css" rel="stylesheet">
+    <link href="/static/css/install.css" rel="stylesheet">
+</head>
+<body>
+
+<main class="intro">
+    <div id="app" v-cloak class="install-card">
+        <div class="text-center" style="color: #f30c51; ">
+            <h1>欢迎使用 biezhi 打赏系统</h1>
+            <img src="/static/img/yaofan.jpg" width="200"/>
+        </div>
+        <fieldset class="flex">
+            <h2>管理员设置</h2>
+            <label><input v-model="install.username" ref="username" min="5" max="20" type="text" placeholder="输入管理员账号"></label>
+            <label><input v-model="install.password" ref="password" min="6" max="20" type="password" placeholder="输入管理员密码"></label>
+            <label>
+                <blockquote class="tip">
+                    管理员账户用户设置主题以及其他安全配置。
+                </blockquote>
+            </label>
+        </fieldset>
+
+        <div class="tabs two">
+            <input id='tab-1' type='radio' value="youzan" v-model="install.platform" name='platform' checked />
+            <label class="pseudo button toggle" for="tab-1">使用有赞云</label>
+            <input id='tab-2' type='radio' value="payjs" v-model="install.platform" name='platform'>
+            <label class="pseudo button toggle" for="tab-2">使用PayJS</label>
+            <div class="row" style="padding-top: 10px;">
+                <div>
+                    <fieldset class="flex">
+                        <a href="https://console.youzanyun.com/application/setting" target="_blank">点击获取有赞云配置</a>
+                        <label><input v-model="install.youzanClientId" ref="youzanClientId" type="text" placeholder="请输入client_id"></label>
+                        <label><input v-model="install.youzanClientSecret" ref="youzanClientSecret" type="text" placeholder="请输入client_secret"></label>
+                        <label><input v-model="install.youzanShopId" ref="youzanShopId" type="number" min="1000" max="9999999" placeholder="请输入授权店铺id"></label>
+                        <label>
+                            <blockquote class="tip">
+                                该配置为您提供扫码支付功能，请确保填写正确。
+                            </blockquote>
+                        </label>
+                    </fieldset>
+                </div>
+
+                <div>
+                    <fieldset class="flex">
+                        <a href="https://payjs.cn/" target="_blank">点击获取 PayJS 配置</a>
+                        <label><input v-model="install.payJSMchid" ref="payJSMchid" type="text" placeholder="请输入商户号"></label>
+                        <label><input v-model="install.payJSSecret" ref="payJSSecret" type="text" placeholder="请输入API密钥"></label>
+                        <label>
+                            <blockquote class="tip">
+                                该配置为您提供扫码支付功能，请确保填写正确。
+                            </blockquote>
+                        </label>
+                    </fieldset>
+                </div>
+
+            </div>
+        </div>
+
+        <div v-if="error">
+            <span class="button stack error icon-help-circled">{{error}}</span>
+        </div>
+
+        <div class="text-center">
+            <button class="install-btn" @click="doinstall">确定开启要饭生涯</button>
+        </div>
+    </div>
+</main>
+<script src="//cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+<script src="//cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script src="/static/js/base.js"></script>
+<script src="/static/js/install.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="${_csrf_token}" name="csrf_token"/>
+    <title>Make Money 管理员登录</title>
+    <link href="//cdn.bootcss.com/picnic/6.5.0/picnic.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/picnic/6.5.0/plugins.min.css" rel="stylesheet">
+    <link href="/static/css/login.css" rel="stylesheet">
+</head>
+<body>
+
+<main class="intro">
+    <div id="app" v-cloak class="install-card">
+        <div class="text-center" style="color: #f30c51; padding-bottom: 10px;">
+            <h1>欢迎登录 biezhi 打赏系统</h1>
+            <img src="/static/img/yaofan.jpg" width="200"/>
+        </div>
+        <fieldset class="flex">
+            <label><input v-model="login.username" ref="username" type="text" placeholder="输入管理员账号"></label>
+            <label><input v-model="login.password" ref="password" type="password" placeholder="输入管理员密码"></label>
+        </fieldset>
+        <div>
+            <span class="button stack error icon-help-circled" v-if="error">{{error}}</span>
+        </div>
+        <div class="text-center">
+            <button class="install-btn" @click="dologin">登录</button>
+        </div>
+    </div>
+</main>
+<script src="//cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+<script src="//cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script src="/static/js/base.js"></script>
+<script src="/static/js/login.js"></script>
+</body>
+</html>

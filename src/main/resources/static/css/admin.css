@@ -1,0 +1,31 @@
+body, html {
+    font-family:pingfang sc,helvetica neue,Helvetica,STHeitiSC-Light,Arial,sans-serif;
+    background-size: cover;
+}
+
+main {
+    /*max-width: 1024px;*/
+    max-width: 1460px;
+    width: 100%;
+    margin: 50px auto 100px;
+}
+
+nav {
+    position: relative;
+    z-index: 9;
+    padding: 0 .6em;
+    margin-bottom: 30px;
+}
+
+.tip {
+    font-size: .85em;
+    color: #9c1313;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.shyButton {
+    font-size: .75em;
+}

@@ -1,0 +1,33 @@
+body, html {
+    font-family:pingfang sc,helvetica neue,Helvetica,STHeitiSC-Light,Arial,sans-serif;
+    background-size: cover;
+    background: #14b7ff url("/static/img/bg.jpg") no-repeat;
+}
+.text-center {
+    text-align: center;
+}
+.intro {
+    max-width: 680px;
+    width: 100%;
+    margin: 50px auto 100px;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.install-card {
+    padding: 10px 25px; background: #fff; opacity: .9; border-radius: 8px;-webkit-box-shadow: -4px -3px 64px -5px rgba(0,0,0,0.56);
+    -moz-box-shadow: -4px -3px 64px -5px rgba(0,0,0,0.56);
+    box-shadow: -4px -3px 64px -5px rgba(0,0,0,0.56);
+}
+
+.tip {
+    font-size: .85em;
+    color: #9c1313;
+}
+
+.install-btn {
+    margin-top: 20px;
+    font-size: 1.25em;
+}

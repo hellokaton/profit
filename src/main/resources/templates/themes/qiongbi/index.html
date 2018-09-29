@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>穷逼</title>
+    <meta content="${_csrf_token}" name="csrf_token"/>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="icon" type="image/gif" href="//i.loli.net/2018/09/29/5baf4eb26d8fe.gif"/>
+    <link href="/static/css/qiongbi.css" rel="stylesheet">
+    <script src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/common.js"></script>
+    <script type="text/javascript" src="/static/js/qiongbi.js"></script>
+</head>
+
+<body>
+<div class="wrap">
+    <h1 class="logo">
+        <img src="//i.loli.net/2018/09/29/5baf4eb26d8fe.gif" class="logo-img">
+        <span class="logo-txt">穷逼</span>
+    </h1>
+    <blockquote class="slogan">
+        <p>“我是穷逼，人穷志短的傻逼，我自卑，我虚荣；我没钱，没梦想；没朋友，没爱情，更没有尊严。”</p>
+        <p>“我穷困潦倒，我失意颓废，我人生一片灰暗。放下我卑贱的自尊，只求大爷您用金钱羞辱我，践踏我！”</p>
+    </blockquote>
+    <h2 class="alms-title">用金钱羞辱他</h2>
+    <form method="post" class="alms-form" onsubmit="return false;">
+        <p class="field">
+            <label for="">大爷尊称</label>
+            <span class="ui-input">
+          <span class="inner">
+            <input name="payUser" id="username" class="input-txt" type="text" placeholder="一个好人">
+          </span>
+        </span>
+        </p>
+        <p class="field">
+            <label for="">您的邮箱</label>
+            <span class="ui-input">
+          <span class="inner">
+            <input name="payEmail" id="email" class="input-txt" type="email" placeholder="help@me.com">
+          </span>
+        </span>
+            <span class="tips">以便与您取得联系</span>
+        </p>
+
+        <p class="field">
+            <label for="">羞辱他几句</label>
+            <span class="ui-input">
+          <span class="inner">
+            <textarea name="payComment" id="payComment" class="input-txt" id="" cols="60" rows="4"
+                      placeholder="我努力，我坚持，我一定能成功。"></textarea>
+          </span>
+        </span>
+        </p>
+        <p class="field field-group amounts">
+            <span class="amount first" data-amount="5">5<small class="currency">¥</small></span>
+            <span class="amount" data-amount="8.88">8.88<small class="currency">¥</small></span>
+            <span class="amount" data-amount="10">10<small class="currency">¥</small></span>
+            <span class="amount" data-amount="20">20<small class="currency">¥</small></span>
+            <span class="amount" data-amount="50">50<small class="currency">¥</small></span>
+            <span class="amount custom">
+          <span class="ui-input">
+            <span class="inner">
+              <input type="text" class="input-txt" id="customAmount" placeholder="其他金额≥1">
+            </span>
+          </span>
+        </span>
+        </p>
+
+        <p class="action">
+            <button type="submit" class="btn-form"><span class="ico"></span><span
+                    class="txt">践踏他的尊严</span></button>
+        </p>
+        <input type="hidden" name="money" id="amount" value="5">
+        <input type="hidden" name="channel" value="wechat">
+
+        <div class="payment" style="display:none;">
+            <h3>谢谢您的关爱</h3>
+            <p class="img"><img src="//i.loli.net/2018/09/29/5baf8e514ffaa.jpg" alt="" width="150" height="150">
+            </p>
+            <p class="txt">微信扫描关爱<strong class="price"><span class="value">100</span> &yen;</strong><br>祝好人一生平安</p>
+            <p class="state"></p>
+        </div>
+
+        <div class="aside summary">
+            <p>截至2018年9月共92人<br>羞辱过本穷逼的金钱共计<span class="donation">${money(options.total_amount) ?! 0} <small
+                    class="currency">¥</small></span></p>
+        </div>
+    </form>
+    <h2 class="alms-title alms-list-title">有钱就是爷</h2>
+    <div class="alms-list">
+        <ol class="list" role="main">
+            #for(item : orderPage.rows)
+            <li itemscope itemtype="http://schema.org/Person">
+                <p class='info'>
+                    <img itemprop="photo" src='https://gravatar.com/avatar/c99587a1771773df78672d50208e7e2c/100'>
+                    <span class='fn' itemprop="name">${item.payUser}</span>于
+                    <time datetime='2018/4/13 15:49:26'>${date(item.created)}</time>
+                    向他捐赠<strong class='sum'>${money(item.money)}</strong>&yen;
+                </p>
+                <p class='says'>
+                    <i class='qt-l'></i>${item.payComment}<i class='qt-r'></i>
+                </p>
+            </li>
+            #end
+        </ol>
+        <p class="pages">
+            #if(orderPage.hasPrevPage)
+            <a href="/?p=${orderPage.prevPage}">&laquo; 上一页</a>
+            #else
+            <span class='disabled'>&laquo; 上一页</span>
+            #end
+
+            <span>${orderPage.pageNum}</span>
+
+            #if(orderPage.hasNextPage)
+            <a href="/?p=${orderPage.nextPage}">下一页 &raquo;</a>
+            #else
+            <span class='disabled'>下一页 &raquo;</span>
+            #end
+
+        </p>
+    </div>
+    <div class="aside about">
+        <p>本站自卑的使用了<br>烂大街的 Java 语言开发<br><img src="//i.loli.net/2018/09/29/5baf4fff09151.png" alt="" height="50">
+        </p>
+        <p class="statement">本站LOGO原型来自于网络<br>LOGO字体版权归造字工坊</p>
+
+        <p class="copyright">&copy; 2018 BIEZHI.ME</p>
+    </div>
+</div>
+
+</body>
+</html>

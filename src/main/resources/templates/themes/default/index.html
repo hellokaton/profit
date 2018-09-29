@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>biezhi 全自动要饭系统</title>
+    <meta charset="utf-8"/>
+    <meta content="${_csrf_token}" name="csrf_token"/>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .panel {
+            border: none;
+            border-radius: 10px;
+        }
+        .panel {
+            box-shadow: 1px 1px 5px 5px rgba(169, 169, 169, 0.35);
+            -moz-box-shadow: 1px 1px 5px 5px rgba(169, 169, 169, 0.35);
+        }
+    </style>
+
+<body background="https://ww2.sinaimg.cn/large/a15b4afegy1fpp139ax3wj200o00g073.jpg">
+<div class="container" style="padding-top:20px;">
+    <div class="col-xs-12 col-sm-10 col-lg-8 center-block" style="float: none;">
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="background: linear-gradient(to right,#8ae68a,#5ccdde,#b221ff);">
+                <center>
+                    <font color="#000000"><b>老板行行好吧~</b></font>
+                </center>
+            </div>
+            <div class="panel-body">
+                <center>
+                    <div class="alert alert-success">
+                        <a href="{{domain}}"><img class="img-circle m-b-xs"
+                                                  style="border: 2px solid #1281FF; margin-left:3px; margin-right:3px;"
+                                                  src="https://i.loli.net/2018/09/22/5ba5fd918e4d0.jpeg" ; width="60px"
+                                                  height="60px" alt="全自动要饭系统"><br>
+                        </a>大哥哥大姐们啊！你们都是有钱的人呐～谁有那多余的零钱？给我这流浪的人啊...
+                    </div>
+                </center>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-barcode"></span> 大佬人称</span>
+                    <input type="text" value="只留钱不留名" name="payUser" id="payUser" class="form-control"/>
+                </div>
+                <br/>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-shopping-cart"></span> 施舍留言</span>
+                    <input size="30" name="payComment" id="payComment" class="form-control" required="required"/>
+                </div>
+                <br/>
+                <div class="input-group">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-yen"></span> 施舍金额</span>
+                    <input size="30" name="money" id="money"
+                           onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"
+                           onafterpaste="this.value=this.value.replace(/[^\d.]/g,'')" class="form-control"
+                           required="required"/>
+                </div>
+                <br/>
+                <center>
+                    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+                        <div class="btn-group" role="group">
+                            <button type="radio" name="pay" id="pay" value="pay" class="btn btn-primary">点击打赏</button>
+                        </div>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-10 col-lg-8 center-block" style="float: none;">
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="background: linear-gradient(to right,#b221ff,#14b7ff,#8ae68a);">
+                <center>
+                    <font color="#000000"><b>大佬们的施舍记录</b></font>
+                </center>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>
+                            施舍日期
+                        </th>
+                        <th>
+                            大佬尊称
+                        </th>
+                        <th>
+                            施舍金额
+                        </th>
+                        <th>
+                            状态
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    #for(item : orderPage.rows)
+                    <tr>
+                        <td>
+                            ${date(item.created)}
+                        </td>
+                        <td>
+                            ${item.payUser}
+                        </td>
+                        <td>
+                            ${money(item.money)} 元</b>
+                        </td>
+                        <td>
+                            #if(item.orderStatus == 1)
+                            <font color="green">完成施舍</font>
+                            #else
+                            <font color="red">未完成施舍</font>
+                            #end
+                        </td>
+                    </tr>
+                    #end
+                    </tbody>
+                </table>
+                <div style="padding: 10px 25px 10px 10px;float: right;">
+                    #if(orderPage.hasPrevPage)
+                    <a href="/?p=${orderPage.prevPage}">上一页</a>
+                    #end
+                    #if(orderPage.hasNextPage)
+                    <a href="/?p=${orderPage.nextPage}">下一页</a>
+                    #end
+                    当前第 <code>${orderPage.pageNum}</code> 页，共 <code>${orderPage.totalPages}</code> 页，<code>${orderPage.totalRows}</code>
+                    条数据。
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading" style="background: linear-gradient(to right,#14b7ff,#5ccdde,#b221ff);">
+                <center>
+                    <font color="#000000"><b>站点日志</b></font>
+                </center>
+                </h3>
+            </div>
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td align="center">
+                        <font color="#808080"><b>今日施舍总数</b></br><code>${options.today_count ?! 0}</code></br>
+                            次</font>
+                    </td>
+                    <td align="center">
+                        <font color="#808080"><b>今日施舍金额</b></br><code>${money(options.today_amount) ?! 0}</code></br>
+                            元</font>
+                    </td>
+                </tr>
+                <tr height="50">
+                    <td align="center">
+                        <font color="#808080"><b>累计施舍总数</b></br><code>${options.total_count ?! 0}</code></br>次</font>
+                    </td>
+                    <td align="center">
+                        <font color="#808080"><b>累计施舍金额</b></br><code>${money(options.total_amount) ?! 0}</code></br>元</font>
+                    </td>
+                <tbody>
+            </table>
+        </div>
+        <p style="text-align:center">
+            &copy; Powered by <a href="https://www.youtube.com/channel/UCmlhPmTdqYhRWwWZWSIBwGw">王爵的技术小黑屋</a>!
+        </p>
+        <p style="text-align:center">
+            要饭系统免费提供 <a target="_blank" href="https://github.com/biezhi/make-money">获取源码</a>!
+        </p>
+        <audio autoplay="autoplay" height="100" width="100">
+            <source src="https://c.coka.la/orAvPR.mp3" type="audio/mp3"/>
+        </audio>
+    </div>
+</div>
+<script src="//cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/layer/3.1.0/layer.js"></script>
+<script src="/static/js/common.js"></script>
+<script type="text/javascript">
+    $("#pay").click(function () {
+        var a = $('#kc').attr("alt");
+        if (a <= 0) {
+            layer.msg('该商品库存不足，无法购买！');
+            return;
+        }
+        var money = $("#money").val();
+        var payUser = $("#payUser").val();
+        var payComment = $("#payComment").val();
+        var str = "老板，谢谢打赏<br>大佬人称：" + payUser +
+            "<br>打赏金额：￥" + money;
+
+        layer.confirm(str, {
+            btn: ['我要打赏', '不打赏了'] //按钮
+        }, function () {
+            //异步创建订单
+            var ii = layer.load(2, {
+                shade: [0.1, '#fff']
+            });
+            payOrder({
+                data: {
+                    payUser: payUser,
+                    payComment: payComment,
+                    money: money,
+                    payEmail: '',
+                    "channel": "wechat",
+                },
+                success: function (data) {
+                    layer.close(ii);
+                    str = "微信/支付宝扫码支付<br><img src='" + data.qrImg + "'>";
+                    layer.confirm(str, {
+                        btn: ['已打赏', '后悔了'] //按钮
+                    }, function (index) {
+                        window.location.reload();
+                        layer.close(index);
+                    });
+                    checkOrder({
+                        interval: 3000,
+                        tradeNo: data.tradeNo,
+                        success: function () {
+                            layer.msg('支付成功，感谢你的打赏 (づ￣ 3￣)づ');
+                            window.location.reload();
+                        },
+                        timeout: function (msg) {
+                            // 等待超时
+                            layer.msg(msg);
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 2500);
+                        }
+                    });
+                },
+                failure: function (msg) {
+                    layer.msg(data.msg || '创建二维码失败');
+                }
+            });
+        }, function () {
+            layer.msg('老板行行好吧....我已经3天没吃饭了', {
+                time: 5000, //20s后自动关闭
+                btn: ['再考虑一下~']
+            });
+        });
+    });
+
+    //随机金额
+    function randomMoney() {
+        var moneys = [
+            [0.66, '66大顺'],
+            [0.88, '恭喜发财'],
+            [1.1, '一生一世'],
+            [2.33, '笑看人生'],
+            [3.14, 'biezhi 真棒 (๑•̀ㅂ•́)و✧'],
+            [5.20, '爱你哟'],
+            [6.66, '真的很6']
+        ];
+        var value = moneys[Math.round(Math.random() * (moneys.length - 1))];
+        $('#payComment').val(value[1]);
+        $('#money').val(value[0]);
+    }
+
+    randomMoney();
+</script>
+</body>
+</html>

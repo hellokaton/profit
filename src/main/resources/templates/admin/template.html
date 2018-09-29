@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Money 修改模板配置</title>
+    <meta content="${_csrf_token}" name="csrf_token"/>
+    <link href="//cdn.bootcss.com/picnic/6.5.0/picnic.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/picnic/6.5.0/plugins.min.css" rel="stylesheet">
+    <link href="https://codemirror.net/lib/codemirror.css" rel="stylesheet">
+    <link href="https://cdn.rawgit.com/developit/39e7a58ed3e8bc5e8eb4/raw/7a98859141909389879aadffaa0a0ebf2437473e/one-dark.css" rel="stylesheet">
+    <link href="/static/css/admin.css" rel="stylesheet">
+    <style>
+        .CodeMirror {
+            border: 1px solid #eee;
+            overflow-y: scroll;
+        }
+
+        div.CodeMirror pre,
+        div.CodeMirror-linenumber,
+        code {
+            font-family: 'source-code-pro', Menlo, Consolas, Monaco, 'Andale Mono', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+    </style>
+</head>
+<body>
+
+<main>
+    #include("./_nav.html")
+    <article class="card">
+        <header>
+            <h3>修改模板</h3>
+        </header>
+        <footer>
+            <select onchange="getContent(this)">
+                <option selected>请选择要修改的模板</option>
+                #for(item : files)
+                <option value="${item.name}">${item.name}</option>
+                #end
+            </select>
+            <div>
+                <textarea id="tpl-code-content"></textarea>
+            </div>
+            <div>
+                <button onclick="saveContent()">修改内容</button>
+            </div>
+        </footer>
+    </article>
+
+</main>
+
+<script src="https://codemirror.net/lib/codemirror.js"></script>
+<script src="https://codemirror.net/mode/javascript/javascript.js"></script>
+<script src="https://codemirror.net/mode/htmlmixed/htmlmixed.js"></script>
+<script src="https://codemirror.net/mode/xml/xml.js"></script>
+<script src="//cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script src="/static/js/base.js"></script>
+<script src="/static/js/admin.js"></script>
+<script>
+    var fileName = '';
+    var editor = CodeMirror.fromTextArea(document.getElementById('tpl-code-content'), {
+        mode: 'htmlmixed',
+        theme: 'one-dark',
+        lineNumbers: true,
+        lineWrapping: true,
+        height: 700
+    });
+
+    function saveContent() {
+        if (window.confirm('确定要修改模板吗？')) {
+            axios.post('/admin/template', {
+                theme: '${theme}',
+                fileName: fileName,
+                content: editor.getValue()
+            })
+                .then(function (response) {
+                    var data = response.data;
+                    if (data.success) {
+                        alert('修改成功');
+                        window.location.reload();
+                    } else {
+                        alert(data.msg || '修改失败');
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    }
+
+    function getContent(e) {
+        if (e.value === '') {
+            return;
+        }
+
+        fileName = e.value;
+        axios.post('/admin/template_content', {
+            fileName: fileName,
+            theme: '${theme}'
+        })
+            .then(function (response) {
+                editor.setValue(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+</script>
+</body>
+</html>

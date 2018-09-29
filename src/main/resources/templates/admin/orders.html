@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="${_csrf_token}" name="csrf_token"/>
+    <title>Make Money 订单列表</title>
+    <link href="//cdn.bootcss.com/picnic/6.5.0/picnic.min.css" rel="stylesheet">
+    <link href="//cdn.bootcss.com/picnic/6.5.0/plugins.min.css" rel="stylesheet">
+    <link href="/static/css/admin.css" rel="stylesheet">
+</head>
+<body>
+
+<main id="app" v-cloak>
+    #include("./_nav.html")
+    <article class="card">
+        <header>
+            <h3>查看支付订单</h3>
+        </header>
+        <footer>
+            <table class="primary">
+                <thead>
+                <tr>
+                    <th>订单ID</th>
+                    <th>支付金额</th>
+                    <th>支付用户</th>
+                    <th>支付方式</th>
+                    <th>支付平台</th>
+                    <th>交易流水号</th>
+                    <th>订单状态</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                #for(item : orderPage.rows)
+                <tr>
+                    <td>${item.orderNo}</td>
+                    <td>${money(item.money)}</td>
+                    <td>${item.payUser}</td>
+                    <td>${item.channel}</td>
+                    <td>${item.platform}</td>
+                    <td>${item.tradeNo}</td>
+                    <td>
+                        #if(item.orderStatus == 0)
+                        <span class="label warning">待支付</span>
+                        #elseif(item.orderStatus == 1)
+                        <span class="label success">支付成功</span>
+                        #end
+                    </td>
+                    <td>${datetime(item.created, "yyyy/MM/dd HH:mm:ss")}</td>
+                    <td>
+                        <button class="error" onclick="deleteOrder('${item.orderNo}')">删除</button>
+                    </td>
+                </tr>
+                #end
+                </tbody>
+            </table>
+            <div style="padding-top: 10px; padding-right: 25px; float: right;">
+                #if(orderPage.hasPrevPage)
+                <a class="button" href="/admin/orders?p=${orderPage.prevPage}">上一页</a>
+                #end
+                #if(orderPage.hasNextPage)
+                <a class="button" href="/admin/orders?p=${orderPage.nextPage}">下一页</a>
+                #end
+                当前第 <code>${orderPage.pageNum}</code> 页，共 <code>${orderPage.totalPages}</code> 页，<code>${orderPage.totalRows}</code> 条数据。
+            </div>
+        </footer>
+    </article>
+
+</main>
+
+<script src="//cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+<script src="//cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+<script src="/static/js/base.js"></script>
+<script src="/static/js/admin.js"></script>
+<script>
+    function deleteOrder(orderNo) {
+        if(window.confirm('确定删除该订单吗？')){
+            axios.post('/admin/order/delete/'+orderNo).then(function (response) {
+                var data = response.data;
+                if (data.success) {
+                    alert('删除成功！');
+                    window.location.href = '/admin/orders';
+                } else {
+                    vm.error = data.msg || '删除失败!';
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
+</script>
+</body>
+</html>
