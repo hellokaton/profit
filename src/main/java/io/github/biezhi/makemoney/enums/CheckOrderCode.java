@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 检查订单返回状态
+ *
  * @author biezhi
  * @date 2018/9/29
  */

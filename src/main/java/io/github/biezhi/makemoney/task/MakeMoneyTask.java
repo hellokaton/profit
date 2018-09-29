@@ -28,6 +28,8 @@ public class MakeMoneyTask {
         log.info("清空今日统计");
         makeMoneyService.updateOption(Constant.TODAY_COUNT, "0");
         makeMoneyService.updateOption(Constant.TODAY_AMOUNT, "0");
+
+        Constant.TRADE_NOS.clear();
     }
 
 }

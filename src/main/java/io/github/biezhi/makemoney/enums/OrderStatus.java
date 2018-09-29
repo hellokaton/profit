@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 订单状态
+ * 支付订单状态
  *
  * @author biezhi
  * @date 2018/9/29

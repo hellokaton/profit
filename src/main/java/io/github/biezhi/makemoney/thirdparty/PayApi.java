@@ -28,6 +28,12 @@ public interface PayApi {
      */
     boolean orderPaySuccess(String tradeNo);
 
+    /**
+     * 根据支付平台获取支付 API 实现
+     *
+     * @param plaform
+     * @return
+     */
     static PayApi getPayApi(String plaform){
         if(Platform.YOUZAN.toString().equalsIgnoreCase(plaform)){
             return new YouzanPayApi();

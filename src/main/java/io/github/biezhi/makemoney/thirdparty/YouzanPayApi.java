@@ -17,6 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import static io.github.biezhi.makemoney.bootstrap.Constant.HTTP_TIME_OUT;
 
 /**
+ * 有赞云支付 API 实现
+ *
  * @author biezhi
  * @date 2018/9/29
  */
