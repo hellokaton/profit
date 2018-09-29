@@ -1,7 +1,7 @@
 body, html {
     font-family:pingfang sc,helvetica neue,Helvetica,STHeitiSC-Light,Arial,sans-serif;
-    background-size: cover;
     background: #9b6354 url("//i.loli.net/2018/09/30/5bafaa5269b9b.jpg") no-repeat;
+    background-size: cover;
 }
 .text-center {
     text-align: center;
@@ -9,7 +9,8 @@ body, html {
 .intro {
     max-width: 680px;
     width: 100%;
-    margin: 150px auto 100px;
+    margin: 0 auto 100px;
+    padding: 0 150px;
 }
 
 .install-card {

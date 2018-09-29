@@ -4,10 +4,12 @@ import com.blade.ioc.annotation.Inject;
 import com.blade.mvc.annotation.*;
 import com.blade.mvc.http.Response;
 import com.blade.mvc.ui.RestResponse;
+import io.github.biezhi.makemoney.bootstrap.Bootstrap;
 import io.github.biezhi.makemoney.bootstrap.Constant;
 import io.github.biezhi.makemoney.entities.model.Option;
 import io.github.biezhi.makemoney.entities.param.InstallParam;
 import io.github.biezhi.makemoney.service.MakeMoneyService;
+import io.github.biezhi.makemoney.thirdparty.PayApi;
 import io.github.biezhi.makemoney.utils.Utils;
 import io.github.biezhi.makemoney.verification.Validator;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +58,8 @@ public class InstallController {
         makeMoneyService.saveOption(Constant.TODAY_AMOUNT, "0");
         makeMoneyService.saveOption(Constant.TOTAL_COUNT, "0");
         makeMoneyService.saveOption(Constant.TOTAL_AMOUNT, "0");
+
+        Bootstrap.payApi = PayApi.getPayApi(installParam.getPlatform());
 
         File lock = new File(Utils.CLASSPATH + "install.lock");
         lock.createNewFile();
