@@ -36,6 +36,13 @@ public class IndexController {
     @Inject
     private MakeMoneyService makeMoneyService;
 
+    /**
+     * 打赏首页
+     *
+     * @param orderParam
+     * @param request
+     * @return
+     */
     @GetRoute("/")
     public String index(@Param OrderParam orderParam, Request request) {
         Page<Order> orderPage = makeMoneyService.findOrders(orderParam);
