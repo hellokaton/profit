@@ -99,3 +99,5 @@ fabric.properties
 /logs/
 pack.sh
 *.db
+*.iml
+.idea/
