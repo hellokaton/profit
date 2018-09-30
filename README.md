@@ -1,8 +1,8 @@
 # 在线打赏系统
 
-向导式安装，一个脚本搞定「打赏」系统。
+向导式安装，一个脚本搞定「打赏」系统。[演示站点](https://pay.biezhi.me)
 
-> 开发中... 发布后会更新具体的使用文档和教程。
+> 部分功能正在开发，核心功能已完备。
 > 有任何问题请发 [issue](https://github.com/biezhi/make-money/issues/new)，注意逻辑清晰！ 
 
 [![Build Status](https://travis-ci.org/biezhi/make-money.svg?branch=master)](https://travis-ci.org/biezhi/make-money)
@@ -17,6 +17,10 @@
 - 支持支付渠道扩展
 - 使用 SQLite，无需安装数据库
 - 部署简单，支持脚本运行
+
+## 使用文档
+
+见 [wiki](https://github.com/biezhi/make-money/wiki)
 
 ## 预览
 
