@@ -107,20 +107,21 @@ upgrade(){
 
     if [ "$REMOVE_LOCAL_THEME" -eq "1" ]; then
         rm -rf resources/templates/themes
-        mv upgrade_tmp/resources/templates/themes .
+        mv upgrade_tmp/resources/templates/themes resources/templates
     fi
 
     mv upgrade_tmp/lib .
     mv upgrade_tmp/profit-latest.jar .
     mv upgrade_tmp/tool .
     mv upgrade_tmp/resources/static ./resources
+    mv upgrade_tmp/resources/*.properties ./resources
     mv upgrade_tmp/resources/templates/admin ./resources/templates
     mv upgrade_tmp/resources/templates/*.html ./resources/templates
-    mv upgrade_tmp/resources/*.properties ./resources/*.properties
 
     echo '升级完毕'
 
     rm -rf upgrade_tmp
+    rm -rf profit.tar.gz
 
     start
 }
