@@ -15,4 +15,5 @@ echo '下载完毕'
 
 mkdir $APP_NAME
 tar -zxvf $APP_NAME.tar.gz -C $APP_NAME && cd $APP_NAME
+chmod +x tool
 sh tool start
