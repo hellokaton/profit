@@ -44,13 +44,6 @@ public class Order extends Model {
 
     /**
      * 支付渠道
-     * <p>
-     * wechat/alipay
-     */
-    private String channel;
-
-    /**
-     * 支付渠道
      * youzan/payjs
      */
     private String platform;

@@ -54,7 +54,6 @@ public class Validator {
     public static void orderParam(Order order) {
         Validators.notNull().test(order).throwMessage("订单参数缺失");
         Validators.notNull().test(order.getMoney()).throwMessage("订单参数缺失[money]");
-        Validators.notNull().test(order.getChannel()).throwMessage("订单参数缺失[channel]");
 
         double minAmount = Utils.parseDouble(Bootstrap.getGlobalConfig().get(Constant.AMOUNT_MIN), 0.1D);
         double maxAmount = Utils.parseDouble(Bootstrap.getGlobalConfig().get(Constant.AMOUNT_MAX), 1000D);

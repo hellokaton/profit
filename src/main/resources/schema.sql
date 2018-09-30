@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "orders" (
   "pay_email" varchar(100),
   "pay_comment" varchar(500) NOT NULL,
   "trade_no" varchar(50) NOT NULL,
-  "channel" varchar(10) NOT NULL,
+  "channel" varchar(10),
   "platform" varchar(20) NOT NULL,
   "money" integer(10) NOT NULL,
   "order_status" integer(4) NOT NULL,

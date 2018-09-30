@@ -57,9 +57,6 @@ public class MakeMoneyService {
         if (null != orderParam.getStatus()) {
             query.where(Order::getOrderStatus, orderParam.getStatus());
         }
-        if (StringKit.isNotEmpty(orderParam.getChannel())) {
-            query.where(Order::getChannel, orderParam.getChannel());
-        }
         if (StringKit.isNotEmpty(orderParam.getPlatform())) {
             query.where(Order::getPlatform, orderParam.getPlatform());
         }

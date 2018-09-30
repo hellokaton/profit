@@ -4,8 +4,8 @@ body, html {
 }
 
 main {
-    /*max-width: 1024px;*/
-    max-width: 1460px;
+    max-width: 1324px;
+    /*max-width: 1460px;*/
     width: 100%;
     margin: 50px auto 100px;
 }
