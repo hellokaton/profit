@@ -1,6 +1,6 @@
 #!/bin/sh
 
-APP_NAME="打赏系统"
+APP_NAME="profit"
 JAVA_OPTS="-Xms256m -Xmx256m -Dfile.encoding=UTF-8"
 psid=0
 
@@ -77,10 +77,52 @@ get_latest_release() {
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
+REMOVE_LOCAL_THEME=1
+
 upgrade(){
-    echo '尚未实现'
-#    TAG_VERSION=$(get_latest_release "biezhi/profit")
-#    wget -N --no-check-certificate https://github.com/biezhi/profit/releases/download/$TAG_VERSION/profit.tar.gz
+    echo "是否允许覆盖本地主题 (y/n)?"
+    read con
+    case $con in
+        y|yes|Y|YES)
+            REMOVE_THEME=1
+        ;;
+        *)
+            break
+        ;;
+    esac
+
+    # 备份当前目录
+    tar czvf back_$APP_NAME.tar.gz *
+    echo '备份成功'
+
+    echo '开始下载最新版本.'
+
+    TAG_VERSION=$(get_latest_release "biezhi/profit")
+    wget -N --no-check-certificate https://github.com/biezhi/profit/releases/download/$TAG_VERSION/profit.tar.gz
+
+    mkdir upgrade_tmp
+    tar -zxvf $APP_NAME.tar.gz -C upgrade_tmp
+    sh tool stop
+    rm -rf lib profit-latest.jar tool resources/static resources/templates/admin resources/templates/*.html resources/*.properties
+
+    if [ "$REMOVE_LOCAL_THEME" -eq "1" ]; then
+        rm -rf resources/templates/themes
+        mv upgrade_tmp/resources/templates/themes .
+    fi
+
+    mv upgrade_tmp/lib .
+    mv upgrade_tmp/profit-latest.jar .
+    mv upgrade_tmp/tool .
+    mv upgrade_tmp/resources/static ./resources
+    mv upgrade_tmp/resources/templates/admin ./resources/templates
+    mv upgrade_tmp/resources/templates/*.html ./resources/templates
+    mv upgrade_tmp/resources/*.properties ./resources/*.properties
+
+    echo '升级完毕'
+
+    rm -rf upgrade_tmp
+
+    start
 }
 
 case "$1" in
@@ -104,7 +146,7 @@ case "$1" in
      upgrade
      ;;
   *)
-     echo "Usage: $0 {start|stop|restart|status|log}"
+     echo "Usage: $0 {start | stop | restart | status | upgrade | log}"
      exit 1
 esac
 exit 0
