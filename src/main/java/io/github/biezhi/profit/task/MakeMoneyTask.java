@@ -23,7 +23,7 @@ public class MakeMoneyTask {
     /**
      * 凌晨清空
      */
-    @Schedule(cron = "0 0 0 * * ?")
+    @Schedule(name = "cleanTask", cron = "0 0 0 * * ?")
     public void cleanCountAmount() {
         log.info("清空今日统计");
         optionService.update(Constant.TODAY_COUNT, "0");
