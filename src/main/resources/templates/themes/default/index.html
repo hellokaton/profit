@@ -220,7 +220,7 @@
                     });
                 },
                 failure: function (msg) {
-                    layer.msg(data.msg || '创建二维码失败');
+                    layer.msg(msg || '创建二维码失败');
                 }
             });
         }, function () {

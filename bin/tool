@@ -23,7 +23,7 @@ start() {
       echo "================================"
    else
       echo "Starting $APP_NAME ..."
-      nohup java $JAVA_OPTS -jar make-money-latest.jar >/dev/null 2>&1 &
+      nohup java $JAVA_OPTS -jar make-money-latest.jar --app.env=prod >/dev/null 2>&1 &
 
       checkpid
       if [ $psid -ne 0 ]; then
