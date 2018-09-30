@@ -76,8 +76,7 @@ public class AdminController {
     @JSON
     public String templateContent(@BodyParam TemplateParam template) throws IOException {
         List<String> lines   = Files.readAllLines(Paths.get(Utils.CLASSPATH + "templates/themes/" + template.getTheme() + "/" + template.getFileName()));
-        String       collect = String.join("\n", lines);
-        return collect;
+        return String.join("\n", lines);
     }
 
     @PostRoute("template")
@@ -116,6 +115,7 @@ public class AdminController {
         update().from(Option.class)
                 .set(Option::getValue, name)
                 .where(Option::getKey, Constant.CURRENT_THEME).execute();
+        Bootstrap.refreshConfig();
         return RestResponse.ok();
     }
 
