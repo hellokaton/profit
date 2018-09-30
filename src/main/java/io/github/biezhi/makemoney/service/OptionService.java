@@ -47,11 +47,16 @@ public class OptionService {
                 this.save(Constant.SAFE_YOUZAN_CLIENT_ID, installParam.getYouzanClientId());
                 this.save(Constant.SAFE_YOUZAN_CLIENT_SECRET, installParam.getYouzanClientSecret());
                 this.save(Constant.SAFE_YOUZAN_SHOP_ID, installParam.getYouzanShopId());
+                this.save(Constant.SAFE_PAYJS_MCHID, "");
+                this.save(Constant.SAFE_PAYJS_SECRET, "");
             }
 
             if (Platform.PAYJS.toString().equalsIgnoreCase(installParam.getPlatform())) {
                 this.save(Constant.SAFE_PAYJS_MCHID, installParam.getPayJSMchid());
                 this.save(Constant.SAFE_PAYJS_SECRET, installParam.getPayJSSecret());
+                this.save(Constant.SAFE_YOUZAN_CLIENT_ID, "");
+                this.save(Constant.SAFE_YOUZAN_CLIENT_SECRET, "");
+                this.save(Constant.SAFE_YOUZAN_SHOP_ID, "");
             }
         }
     }

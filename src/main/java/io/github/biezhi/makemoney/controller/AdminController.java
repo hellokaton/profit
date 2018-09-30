@@ -128,6 +128,7 @@ public class AdminController {
         installParam.setUpdate(true);
         optionService.updatePayConfig(installParam);
         Bootstrap.payApi = PayApi.getPayApi(installParam.getPlatform());
+        Bootstrap.refreshConfig();
         return RestResponse.ok();
     }
 
@@ -138,6 +139,7 @@ public class AdminController {
     @JSON
     public RestResponse updateOptions(@BodyParam Map<String, String> options) {
         optionService.updateOptions(options);
+        Bootstrap.refreshConfig();
         return RestResponse.ok();
     }
 
