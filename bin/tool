@@ -68,11 +68,19 @@ status() {
 }
 
 showlog() {
-   tail -f logs/makemoney.log
+   tail -f logs/profit.log
+}
+
+get_latest_release() {
+  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
+    grep '"tag_name":' |                                            # Get tag line
+    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
 upgrade(){
     echo '尚未实现'
+#    TAG_VERSION=$(get_latest_release "biezhi/profit")
+#    wget -N --no-check-certificate https://github.com/biezhi/profit/releases/download/$TAG_VERSION/profit.tar.gz
 }
 
 case "$1" in
