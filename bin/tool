@@ -5,7 +5,7 @@ JAVA_OPTS="-Xms256m -Xmx256m -Dfile.encoding=UTF-8"
 psid=0
 
 checkpid() {
-   javaps=$(pgrep -f "make-money")
+   javaps=$(pgrep -f "profit-latest")
 
    if [ -n "$javaps" ]; then
       psid=$javaps
@@ -23,7 +23,7 @@ start() {
       echo "================================"
    else
       echo "Starting $APP_NAME ..."
-      nohup java $JAVA_OPTS -jar make-money-latest.jar --app.env=prod >/dev/null 2>&1 &
+      nohup java $JAVA_OPTS -jar profit-latest.jar --app.env=prod >/dev/null 2>&1 &
 
       checkpid
       if [ $psid -ne 0 ]; then
@@ -39,7 +39,8 @@ stop() {
 
    if [ $psid -ne 0 ]; then
       echo -n "Stopping $APP_NAME ...(pid=$psid) "
-      kill $psid
+      kill -9 $psid
+
       if [ $? -eq 0 ]; then
          echo "[OK]"
       else
@@ -70,6 +71,10 @@ showlog() {
    tail -f logs/makemoney.log
 }
 
+upgrade(){
+    echo '尚未实现'
+}
+
 case "$1" in
    'start')
       start
@@ -86,6 +91,9 @@ case "$1" in
      ;;
    'log')
      showlog
+     ;;
+   'upgrade')
+     upgrade
      ;;
   *)
      echo "Usage: $0 {start|stop|restart|status|log}"

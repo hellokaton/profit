@@ -3,11 +3,11 @@
 向导式安装，一个脚本搞定「打赏」系统。[演示站点](https://pay.biezhi.me)
 
 > 部分功能正在开发，核心功能已完备。
-> 有任何问题请发 [issue](https://github.com/biezhi/make-money/issues/new)，注意逻辑清晰！ 
+> 有任何问题请发 [issue](https://github.com/biezhi/profit/issues/new)，注意逻辑清晰！ 
 
-[![Build Status](https://travis-ci.org/biezhi/make-money.svg?branch=master)](https://travis-ci.org/biezhi/make-money)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/90131b314c8e40a090444ad06424fad1)](https://www.codacy.com/app/biezhi/make-money?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=biezhi/make-money&amp;utm_campaign=Badge_Grade)
-[![License](https://img.shields.io/badge/license-MIT-db5149.svg)](https://github.com/biezhi/make-money/blob/master/LICENSE)
+[![Build Status](https://travis-ci.org/biezhi/profit.svg?branch=master)](https://travis-ci.org/biezhi/profit)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/90131b314c8e40a090444ad06424fad1)](https://www.codacy.com/app/biezhi/profit?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=biezhi/profit&amp;utm_campaign=Badge_Grade)
+[![License](https://img.shields.io/badge/license-MIT-db5149.svg)](https://github.com/biezhi/profit/blob/master/LICENSE)
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/biezhii.svg?style=social&label=Follow%20Twitter)](https://twitter.com/biezhii)
 
 ## 特性
@@ -20,7 +20,7 @@
 
 ## 使用文档
 
-见 [wiki](https://github.com/biezhi/make-money/wiki)
+使用教程见 [wiki](https://github.com/biezhi/profit/wiki)
 
 ## 预览
 
