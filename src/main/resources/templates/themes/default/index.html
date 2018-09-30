@@ -16,7 +16,7 @@
             -moz-box-shadow: 1px 1px 5px 5px rgba(169, 169, 169, 0.35);
         }
     </style>
-
+</head>
 <body background="https://ww2.sinaimg.cn/large/a15b4afegy1fpp139ax3wj200o00g073.jpg">
 <div class="container" style="padding-top:20px;">
     <div class="col-xs-12 col-sm-10 col-lg-8 center-block" style="float: none;">
@@ -148,20 +148,19 @@
                         <font color="#808080"><b>累计施舍总数</b></br><code>${options.total_count ?! 0}</code></br>次</font>
                     </td>
                     <td align="center">
-                        <font color="#808080"><b>累计施舍金额</b></br><code>${money(options.total_amount) ?! 0}</code></br>元</font>
+                        <font color="#808080"><b>累计施舍金额</b></br><code>${money(options.total_amount) ?! 0}</code></br>
+                            元</font>
                     </td>
                 <tbody>
             </table>
         </div>
-        <p style="text-align:center">
-            &copy; Powered by <a href="https://www.youtube.com/channel/UCmlhPmTdqYhRWwWZWSIBwGw">王爵的技术小黑屋</a>!
-        </p>
-        <p style="text-align:center">
-            要饭系统免费提供 <a target="_blank" href="https://github.com/biezhi/make-money">获取源码</a>!
-        </p>
         <audio autoplay="autoplay" height="100" width="100">
             <source src="https://c.coka.la/orAvPR.mp3" type="audio/mp3"/>
         </audio>
+        <p style="text-align:center;">
+            Copyright &copy; 2018 Powered by <a target="_blank" href="https://github.com/biezhi/make-money">make
+            money</a>!
+        </p>
     </div>
 </div>
 <script src="//cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
