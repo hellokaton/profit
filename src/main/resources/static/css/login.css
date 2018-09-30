@@ -7,10 +7,10 @@ body, html {
     text-align: center;
 }
 .intro {
-    max-width: 680px;
+    max-width: 780px;
     width: 100%;
     margin: 0 auto 100px;
-    padding: 0 150px;
+    padding: 150px 150px 100px;
 }
 
 .install-card {
@@ -31,4 +31,14 @@ body, html {
 .install-btn {
     margin-top: 20px;
     font-size: 1.25em;
+}
+
+#footer {
+    margin-top: 20px;
+    clear: both;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 0.85em;
+    color: #f8f8f8;
+    text-align: center;
 }

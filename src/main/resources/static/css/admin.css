@@ -29,3 +29,13 @@ nav {
 .shyButton {
     font-size: .75em;
 }
+
+#footer {
+    margin-top: 20px;
+    clear: both;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 0.85em;
+    color: #f8f8f8;
+    text-align: center;
+}

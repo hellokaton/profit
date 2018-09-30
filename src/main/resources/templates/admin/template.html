@@ -52,13 +52,12 @@
 
 </main>
 
+#include("./_footer.html")
+
 <script src="https://codemirror.net/lib/codemirror.js"></script>
 <script src="https://codemirror.net/mode/javascript/javascript.js"></script>
 <script src="https://codemirror.net/mode/htmlmixed/htmlmixed.js"></script>
 <script src="https://codemirror.net/mode/xml/xml.js"></script>
-<script src="//cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
-<script src="/static/js/base.js"></script>
-<script src="/static/js/admin.js"></script>
 <script>
     var fileName = '';
     var editor = CodeMirror.fromTextArea(document.getElementById('tpl-code-content'), {
@@ -108,7 +107,6 @@
                 console.log(error);
             });
     }
-
 </script>
 </body>
 </html>
