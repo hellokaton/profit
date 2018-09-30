@@ -24,7 +24,7 @@ start() {
    else
       echo "Starting $APP_NAME ..."
       nohup java $JAVA_OPTS -jar profit-latest.jar --app.env=prod >/dev/null 2>&1 &
-
+      sleep 1
       checkpid
       if [ $psid -ne 0 ]; then
          echo "(pid=$psid) [OK]"
