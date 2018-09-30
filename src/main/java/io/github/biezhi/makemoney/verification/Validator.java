@@ -66,7 +66,7 @@ public class Validator {
         Validators.notEmpty().test(order.getPayUser()).throwMessage("订单参数缺失[payUser]");
         Validators.notEmpty().test(order.getPayComment()).throwMessage("订单参数缺失[payComment]");
         Validators.length(1, 50).test(order.getPayUser()).throwMessage("昵称长度仅允许在 1-50 个字符");
-        Validators.length(4, 500).test(order.getPayUser()).throwMessage("留言长度仅允许在 4-500 个字符");
+        Validators.length(4, 500).test(order.getPayComment()).throwMessage("留言长度仅允许在 4-500 个字符");
 
         if (EMOJI_PATTERN.matcher(order.getPayUser()).find()) {
             throw new ValidatorException("您的输入中包含了禁止处理的字符 :( 请重新输入");
