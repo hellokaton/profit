@@ -92,7 +92,8 @@ upgrade(){
     esac
 
     # 备份当前目录
-    tar czvf back_$APP_NAME.tar.gz *
+    TIME=`date +%Y%m%d_%H%m`
+    tar czvf back_$TIME.tar.gz *
     echo '备份成功'
 
     echo '开始下载最新版本.'
@@ -113,6 +114,7 @@ upgrade(){
     mv upgrade_tmp/lib .
     mv upgrade_tmp/profit-latest.jar .
     mv upgrade_tmp/tool .
+    chmod +x tool
     mv upgrade_tmp/resources/static ./resources
     mv upgrade_tmp/resources/*.properties ./resources
     mv upgrade_tmp/resources/templates/admin ./resources/templates
