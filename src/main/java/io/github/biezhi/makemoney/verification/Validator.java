@@ -4,9 +4,12 @@ import com.blade.exception.ValidatorException;
 import com.blade.kit.PatternKit;
 import com.blade.kit.StringKit;
 import com.blade.validator.Validators;
+import io.github.biezhi.makemoney.bootstrap.Bootstrap;
+import io.github.biezhi.makemoney.bootstrap.Constant;
 import io.github.biezhi.makemoney.entities.model.Order;
 import io.github.biezhi.makemoney.entities.param.InstallParam;
 import io.github.biezhi.makemoney.enums.Platform;
+import io.github.biezhi.makemoney.utils.Utils;
 import lombok.experimental.UtilityClass;
 
 import java.util.regex.Pattern;
@@ -53,10 +56,13 @@ public class Validator {
         Validators.notNull().test(order.getMoney()).throwMessage("订单参数缺失[money]");
         Validators.notNull().test(order.getChannel()).throwMessage("订单参数缺失[channel]");
 
-        if (order.getMoney().doubleValue() < 0.1) {
-            throw new ValidatorException("金额最小为 0.1 元");
+        double minAmount = Utils.parseDouble(Bootstrap.getGlobalConfig().get(Constant.AMOUNT_MIN), 0.1D);
+        double maxAmount = Utils.parseDouble(Bootstrap.getGlobalConfig().get(Constant.AMOUNT_MAX), 1000D);
+
+        if (order.getMoney().doubleValue() < minAmount) {
+            throw new ValidatorException(String.format("金额最小为 %d 元", minAmount));
         }
-        if (order.getMoney().doubleValue() > 1000) {
+        if (order.getMoney().doubleValue() > maxAmount) {
             throw new ValidatorException("先生，请不要这样！");
         }
 
@@ -66,7 +72,11 @@ public class Validator {
         Validators.notEmpty().test(order.getPayUser()).throwMessage("订单参数缺失[payUser]");
         Validators.notEmpty().test(order.getPayComment()).throwMessage("订单参数缺失[payComment]");
         Validators.length(1, 50).test(order.getPayUser()).throwMessage("昵称长度仅允许在 1-50 个字符");
-        Validators.length(4, 500).test(order.getPayComment()).throwMessage("留言长度仅允许在 4-500 个字符");
+
+        int min = Utils.parseInt(Bootstrap.getGlobalConfig().get(Constant.COMMENT_MIN_SIZE), 4);
+        int max = Utils.parseInt(Bootstrap.getGlobalConfig().get(Constant.COMMENT_MAX_SIZE), 500);
+
+        Validators.length(min, max).test(order.getPayComment()).throwMessage(String.format("留言长度仅允许在 %d-%d 个字符", min, max));
 
         if (EMOJI_PATTERN.matcher(order.getPayUser()).find()) {
             throw new ValidatorException("您的输入中包含了禁止处理的字符 :( 请重新输入");

@@ -2,8 +2,8 @@ package io.github.biezhi.makemoney.service;
 
 import com.blade.exception.ValidatorException;
 import com.blade.ioc.annotation.Bean;
+import com.blade.ioc.annotation.Inject;
 import com.blade.kit.JsonKit;
-import com.blade.kit.PasswordKit;
 import com.blade.kit.StringKit;
 import io.github.biezhi.anima.core.AnimaQuery;
 import io.github.biezhi.anima.enums.OrderBy;
@@ -12,7 +12,6 @@ import io.github.biezhi.makemoney.bootstrap.Bootstrap;
 import io.github.biezhi.makemoney.bootstrap.Constant;
 import io.github.biezhi.makemoney.entities.model.Option;
 import io.github.biezhi.makemoney.entities.model.Order;
-import io.github.biezhi.makemoney.entities.param.InstallParam;
 import io.github.biezhi.makemoney.entities.param.OrderParam;
 import io.github.biezhi.makemoney.entities.request.CallbackTrade;
 import io.github.biezhi.makemoney.entities.request.CreateOrderRequest;
@@ -42,17 +41,17 @@ import static java.util.stream.Collectors.toMap;
 @Slf4j
 public class MakeMoneyService {
 
+    @Inject
+    private OptionService optionService;
+
     public Page<Order> findOrders(OrderParam orderParam) {
         AnimaQuery<Order> query = select().from(Order.class);
 
-        int page  = Utils.parseOrDefault(orderParam.getP(), 1);
-        int limit = Utils.parseOrDefault(orderParam.getLimit(), 10);
+        int page  = Utils.parseInt(orderParam.getP(), 1);
+        int limit = Utils.parseInt(Bootstrap.getGlobalConfig().get(Constant.PAGE_SIZE), 10);
 
         if (page < 1) {
             page = 1;
-        }
-        if (limit < 1 || limit > 20) {
-            limit = 10;
         }
 
         if (null != orderParam.getStatus()) {
@@ -122,65 +121,6 @@ public class MakeMoneyService {
         throw new ValidatorException("暂不支持交易");
     }
 
-    public void updateConfig(InstallParam installParam) {
-
-        // 保存到数据库
-        if (installParam.isUpdate()) {
-            this.updateOption(Constant.SAFE_PLATFORM, installParam.getPlatform());
-
-            if (Platform.YOUZAN.toString().equalsIgnoreCase(installParam.getPlatform())) {
-                this.updateOption(Constant.SAFE_YOUZAN_CLIENT_ID, installParam.getYouzanClientId());
-                this.updateOption(Constant.SAFE_YOUZAN_CLIENT_SECRET, installParam.getYouzanClientSecret());
-                this.updateOption(Constant.SAFE_YOUZAN_SHOP_ID, installParam.getYouzanShopId());
-            }
-
-            if (Platform.PAYJS.toString().equalsIgnoreCase(installParam.getPlatform())) {
-                this.updateOption(Constant.SAFE_PAYJS_MCHID, installParam.getPayJSMchid());
-                this.updateOption(Constant.SAFE_PAYJS_SECRET, installParam.getPayJSSecret());
-            }
-        } else {
-            this.saveOption(Constant.SAFE_USERNAME, installParam.getUsername());
-
-            String pass = PasswordKit.hashPassword(installParam.getPassword());
-            this.saveOption(Constant.SAFE_PASSWORD, pass);
-
-            this.saveOption(Constant.SAFE_PLATFORM, installParam.getPlatform());
-            this.saveOption(Constant.CURRENT_THEME, installParam.getTheme());
-
-            if (Platform.YOUZAN.toString().equalsIgnoreCase(installParam.getPlatform())) {
-                this.saveOption(Constant.SAFE_YOUZAN_CLIENT_ID, installParam.getYouzanClientId());
-                this.saveOption(Constant.SAFE_YOUZAN_CLIENT_SECRET, installParam.getYouzanClientSecret());
-                this.saveOption(Constant.SAFE_YOUZAN_SHOP_ID, installParam.getYouzanShopId());
-            }
-
-            if (Platform.PAYJS.toString().equalsIgnoreCase(installParam.getPlatform())) {
-                this.saveOption(Constant.SAFE_PAYJS_MCHID, installParam.getPayJSMchid());
-                this.saveOption(Constant.SAFE_PAYJS_SECRET, installParam.getPayJSSecret());
-            }
-        }
-
-        Bootstrap.GLOBAL_CONFIG.put(Constant.SAFE_YOUZAN_CLIENT_ID, installParam.getYouzanClientId());
-        Bootstrap.GLOBAL_CONFIG.put(Constant.SAFE_YOUZAN_CLIENT_SECRET, installParam.getYouzanClientSecret());
-        Bootstrap.GLOBAL_CONFIG.put(Constant.SAFE_YOUZAN_SHOP_ID, installParam.getYouzanShopId());
-        Bootstrap.GLOBAL_CONFIG.put(Constant.SAFE_PAYJS_MCHID, installParam.getPayJSMchid());
-        Bootstrap.GLOBAL_CONFIG.put(Constant.SAFE_PAYJS_SECRET, installParam.getPayJSSecret());
-        Bootstrap.GLOBAL_CONFIG.put(Constant.SAFE_PLATFORM, installParam.getPlatform());
-    }
-
-    public void saveOption(String key, String value) {
-        Option option = new Option();
-        option.setKey(key);
-        option.setValue(value);
-        option.save();
-    }
-
-    public void updateOption(String key, String value) {
-        Option option = new Option();
-        option.setKey(key);
-        option.setValue(value);
-        option.update();
-    }
-
     /**
      * 支付渠道支付回调
      *
@@ -208,7 +148,7 @@ public class MakeMoneyService {
 
     public void updatePaySuccess(String tradeNo, Integer orderStatus) {
         Order order = select().from(Order.class).where(Order::getTradeNo, tradeNo).one();
-        if(null == order || OrderStatus.PAY_SUCCESS.getStatus() == order.getOrderStatus()){
+        if (null == order || OrderStatus.PAY_SUCCESS.getStatus() == order.getOrderStatus()) {
             return;
         }
 
@@ -216,26 +156,26 @@ public class MakeMoneyService {
 
         // 总金额+money
         String totalAmount = findOption(Constant.TOTAL_AMOUNT);
-        updateOption(Constant.TOTAL_AMOUNT, new BigDecimal(totalAmount).add(order.getMoney()).toString());
+        optionService.update(Constant.TOTAL_AMOUNT, new BigDecimal(totalAmount).add(order.getMoney()).toString());
 
         // 今天金额+money
         String todayAmount = findOption(Constant.TODAY_AMOUNT);
-        updateOption(Constant.TODAY_AMOUNT, new BigDecimal(todayAmount).add(order.getMoney()).toString());
+        optionService.update(Constant.TODAY_AMOUNT, new BigDecimal(todayAmount).add(order.getMoney()).toString());
 
     }
 
     private void addCount() {
         // 总笔数+1
         String totalCount = findOption(Constant.TOTAL_COUNT);
-        updateOption(Constant.TOTAL_COUNT, String.valueOf(new BigDecimal(totalCount).intValue() + 1));
+        optionService.update(Constant.TOTAL_COUNT, String.valueOf(new BigDecimal(totalCount).intValue() + 1));
 
         // 今天笔数+1
         String todayCount = findOption(Constant.TODAY_COUNT);
-        updateOption(Constant.TODAY_COUNT, String.valueOf(Integer.valueOf(todayCount) + 1));
+        optionService.update(Constant.TODAY_COUNT, String.valueOf(Integer.valueOf(todayCount) + 1));
     }
 
     public boolean checkOrderPaySuccess(String tradeNo) {
-        if (Platform.YOUZAN.toString().equalsIgnoreCase(Bootstrap.GLOBAL_CONFIG.get(Constant.SAFE_PLATFORM))) {
+        if (Platform.YOUZAN.toString().equalsIgnoreCase(Bootstrap.getGlobalConfig().get(Constant.SAFE_PLATFORM))) {
             return Bootstrap.payApi.orderPaySuccess(tradeNo);
         }
         return false;

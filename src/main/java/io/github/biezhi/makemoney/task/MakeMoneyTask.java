@@ -4,7 +4,7 @@ import com.blade.ioc.annotation.Bean;
 import com.blade.ioc.annotation.Inject;
 import com.blade.task.annotation.Schedule;
 import io.github.biezhi.makemoney.bootstrap.Constant;
-import io.github.biezhi.makemoney.service.MakeMoneyService;
+import io.github.biezhi.makemoney.service.OptionService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MakeMoneyTask {
 
     @Inject
-    private MakeMoneyService makeMoneyService;
+    private OptionService optionService;
 
     /**
      * 凌晨清空
@@ -26,8 +26,8 @@ public class MakeMoneyTask {
     @Schedule(cron = "0 0 0 * * ?")
     public void cleanCountAmount() {
         log.info("清空今日统计");
-        makeMoneyService.updateOption(Constant.TODAY_COUNT, "0");
-        makeMoneyService.updateOption(Constant.TODAY_AMOUNT, "0");
+        optionService.update(Constant.TODAY_COUNT, "0");
+        optionService.update(Constant.TODAY_AMOUNT, "0");
 
         Constant.TRADE_NOS.clear();
     }

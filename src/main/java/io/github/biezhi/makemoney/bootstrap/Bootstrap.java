@@ -30,7 +30,10 @@ import static java.util.stream.Collectors.toMap;
 @Bean
 public class Bootstrap implements BladeLoader {
 
-    public static Map<String, String> GLOBAL_CONFIG = new HashMap<>();
+    /**
+     * 缓存 options 配置，不对外使用
+     */
+    private static Map<String, String> GLOBAL_CONFIG = new HashMap<>();
 
     public static PayApi payApi;
 
@@ -52,11 +55,20 @@ public class Bootstrap implements BladeLoader {
         if (null != theme) {
             IndexController.THEME_NAME = theme.getValue();
         }
-        List<Option> all = select().from(Option.class).where(Option::getKey).like("safe%").all();
+        List<Option> all = select().from(Option.class).all();
         if (null != all) {
             GLOBAL_CONFIG = all.stream().collect(toMap(Option::getKey, (Option::getValue)));
         }
         payApi = PayApi.getPayApi(GLOBAL_CONFIG.get(SAFE_PLATFORM));
+    }
+
+    public static Map<String, String> getGlobalConfig(){
+        return GLOBAL_CONFIG;
+    }
+
+    public static void refreshConfig(){
+        GLOBAL_CONFIG = select().from(Option.class).all().stream()
+                .collect(toMap(Option::getKey, (Option::getValue)));
     }
 
 }

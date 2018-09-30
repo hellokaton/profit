@@ -1,6 +1,7 @@
 package io.github.biezhi.makemoney.utils;
 
 import com.blade.kit.Hashids;
+import com.blade.kit.StringKit;
 import com.blade.mvc.WebContext;
 import io.github.biezhi.makemoney.bootstrap.Constant;
 import lombok.experimental.UtilityClass;
@@ -49,10 +50,6 @@ public class Utils {
         return null != WebContext.request().session().attribute(Constant.LOGIN_SESSION_KEY);
     }
 
-    public static void addBlack(String ip) {
-        BLACK_LIST.add(ip);
-    }
-
     public static boolean isBlackIP(String address) {
         return false;
     }
@@ -65,11 +62,26 @@ public class Utils {
         }
     }
 
-    public static Integer parseOrDefault(String value, int defaultValue) {
+    public static Integer parseInt(String value, int defaultValue) {
         try {
+            if(StringKit.isEmpty(value)){
+                return defaultValue;
+            }
             return Integer.valueOf(value);
         } catch (Exception e) {
             return defaultValue;
         }
     }
+
+    public static Double parseDouble(String value, double defaultValue) {
+        try {
+            if(StringKit.isEmpty(value)){
+                return defaultValue;
+            }
+            return Double.valueOf(value);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
 }

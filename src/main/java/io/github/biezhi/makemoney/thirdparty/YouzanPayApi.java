@@ -32,10 +32,10 @@ public class YouzanPayApi implements PayApi {
         String body = Request.post("https://open.youzan.com/oauth/token")
                 .userAgent("X-YZ-Client 2.0.0 - Java")
                 .contentType("application/json", "utf-8")
-                .form("client_id", Bootstrap.GLOBAL_CONFIG.get(Constant.SAFE_YOUZAN_CLIENT_ID))
-                .form("client_secret", Bootstrap.GLOBAL_CONFIG.get(Constant.SAFE_YOUZAN_CLIENT_SECRET))
+                .form("client_id", Bootstrap.getGlobalConfig().get(Constant.SAFE_YOUZAN_CLIENT_ID))
+                .form("client_secret", Bootstrap.getGlobalConfig().get(Constant.SAFE_YOUZAN_CLIENT_SECRET))
                 .form("grant_type", "silent")
-                .form("kdt_id", Bootstrap.GLOBAL_CONFIG.get(Constant.SAFE_YOUZAN_SHOP_ID))
+                .form("kdt_id", Bootstrap.getGlobalConfig().get(Constant.SAFE_YOUZAN_SHOP_ID))
                 .connectTimeout(HTTP_TIME_OUT)
                 .readTimeout(HTTP_TIME_OUT)
                 .body();

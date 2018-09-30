@@ -15,107 +15,138 @@
     #include("./_nav.html")
     <article class="card">
         <header>
-            <h3>修改支付配置 [当前：<span>{{config.platform}}</span>]</h3>
+            <h3>系统配置</h3>
         </header>
         <footer>
-            <div class="tabs two">
-                <input id="tab-1" type='radio' value="youzan" v-model="config.platform" name='platform' v-if="config.platform == 'youzan'" checked />
-                <input id="tab-2" type='radio' value="youzan" v-model="config.platform" name='platform' v-if="config.platform != 'youzan'" />
-                <label class="pseudo button toggle" for="tab-2">使用有赞云</label>
-                <input id="tab-3" type='radio' value="payjs" v-model="config.platform" name='platform' v-if="config.platform == 'payjs'" checked />
-                <input id="tab-4" type='radio' value="payjs" v-model="config.platform" name='platform' v-if="config.platform != 'payjs'" />
-                <label class="pseudo button toggle" for="tab-4">使用PayJS</label>
-                <div class="row" style="padding-top: 10px;">
+            <div class="flex three">
+                <div style="padding:0 20px; background-color: #75c5ff;">
                     <div>
-                        <fieldset class="flex">
-                            <a href="https://console.youzanyun.com/application/setting" target="_blank">点击获取有赞云配置</a>
-                            <label><input v-model="config.youzanClientId" ref="youzanClientId" type="text" placeholder="请输入client_id" ></label>
-                            <label><input v-model="config.youzanClientSecret" ref="youzanClientSecret" type="text" placeholder="请输入client_secret" ></label>
-                            <label><input v-model="config.youzanShopId" ref="youzanShopId" type="text" placeholder="请输入授权店铺id" ></label>
-                            <label>
-                                <blockquote class="tip">
-                                    该配置为您提供扫码支付功能，请确保填写正确。
-                                </blockquote>
-                            </label>
-                        </fieldset>
+                        <h4>修改支付配置 [当前：<span>{{payConfig.platform}}</span>]</h4>
+                    </div>
+                    <div class="tabs two">
+                        <input id="tab-1" type='radio' value="youzan" v-model="payConfig.platform" name='platform'
+                               v-if="payConfig.platform == 'youzan'" checked/>
+                        <input id="tab-2" type='radio' value="youzan" v-model="payConfig.platform" name='platform'
+                               v-if="payConfig.platform != 'youzan'"/>
+                        <label class="pseudo button toggle" for="tab-2">使用有赞云</label>
+                        <input id="tab-3" type='radio' value="payjs" v-model="payConfig.platform" name='platform'
+                               v-if="payConfig.platform == 'payjs'" checked/>
+                        <input id="tab-4" type='radio' value="payjs" v-model="payConfig.platform" name='platform'
+                               v-if="payConfig.platform != 'payjs'"/>
+                        <label class="pseudo button toggle" for="tab-4">使用PayJS</label>
+                        <div class="row" style="padding-top: 10px;">
+                            <div>
+                                <fieldset class="flex">
+                                    <a href="https://console.youzanyun.com/application/setting" target="_blank">点击获取有赞云配置</a>
+                                    <label><input v-model="payConfig.youzanClientId" ref="youzanClientId" type="text"
+                                                  placeholder="请输入client_id"></label>
+                                    <label><input v-model="payConfig.youzanClientSecret" ref="youzanClientSecret"
+                                                  type="text" placeholder="请输入client_secret"></label>
+                                    <label><input v-model="payConfig.youzanShopId" ref="youzanShopId" type="text"
+                                                  placeholder="请输入授权店铺id"></label>
+                                    <label>
+                                        <blockquote class="tip">
+                                            该配置为您提供扫码支付功能，请确保填写正确。
+                                        </blockquote>
+                                    </label>
+                                </fieldset>
+                            </div>
+
+                            <div>
+                                <fieldset class="flex">
+                                    <a href="https://payjs.cn/" target="_blank">点击获取 PayJS 配置</a>
+                                    <label><input v-model="payConfig.payJSMchid" ref="payJSMchid" type="text"
+                                                  placeholder="请输入商户号"/></label>
+                                    <label><input v-model="payConfig.payJSSecret" ref="payJSSecret" type="text"
+                                                  placeholder="请输入API密钥"/></label>
+                                    <label>
+                                        <blockquote class="tip">
+                                            该配置为您提供扫码支付功能，请确保填写正确。
+                                        </blockquote>
+                                    </label>
+                                </fieldset>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div v-if="error">
+                        <span class="button stack error icon-help-circled">{{error}}</span>
                     </div>
 
+                    <button @click="savePayConfig">保存配置</button>
+                </div>
+                <div style="padding:0 20px; background-color: #77e083;">
                     <div>
-                        <fieldset class="flex">
-                            <a href="https://payjs.cn/" target="_blank">点击获取 PayJS 配置</a>
-                            <label><input v-model="config.payJSMchid" ref="payJSMchid" type="text" placeholder="请输入商户号" /></label>
-                            <label><input v-model="config.payJSSecret" ref="payJSSecret" type="text" placeholder="请输入API密钥" /></label>
-                            <label>
-                                <blockquote class="tip">
-                                    该配置为您提供扫码支付功能，请确保填写正确。
-                                </blockquote>
-                            </label>
-                        </fieldset>
+                        <h3>通用配置</h3>
                     </div>
-
+                    <fieldset class="flex">
+                        <label>
+                            <span>每页条数</span>
+                            <input type="number" v-model="common.page_size" placeholder="" value="10"/>
+                        </label>
+                        <label>
+                            留言字数限制
+                        </label>
+                        <div class="flex three">
+                            <div>
+                                <input type="number" v-model="common.comment_min_size" placeholder="最小字数" />
+                            </div>
+                            <div>
+                                <input type="number" v-model="common.comment_max_size" placeholder="最大字数" />
+                            </div>
+                        </div>
+                        <label>
+                            打赏金额限制
+                        </label>
+                        <div class="flex three">
+                            <div>
+                                <input type="number" v-model="common.amount_min" placeholder="最小金额" />
+                            </div>
+                            <div>
+                                <input type="number" v-model="common.amount_max" placeholder="最大金额" />
+                            </div>
+                        </div>
+                        <div>
+                            <button @click="saveCommonConfig">保存配置</button>
+                        </div>
+                    </fieldset>
+                </div>
+                <div style="padding:0 20px; background-color: #ff5684;">
+                    <div>
+                        <h3>主题配置</h3>
+                    </div>
+                    <div class="flex two">
+                        <div>
+                            <article class="card">
+                                <img src="/static/img/forest.jpg">
+                                <footer>
+                                    <h3>默认主题</h3>
+                                    <button class="shyButton" v-if="theme != 'default'"
+                                            @click="enableTheme('default')">启用
+                                    </button>
+                                    <button class="shyButton" v-if="theme == 'default'" disabled>当前主题</button>
+                                    <a class="button shyButton warning" href="/admin/template/default">修改模板</a>
+                                </footer>
+                            </article>
+                        </div>
+                        <div>
+                            <article class="card">
+                                <img src="/static/img/forest.jpg">
+                                <footer>
+                                    <h3>穷B主题</h3>
+                                    <button class="shyButton" v-if="theme != 'qiongbi'"
+                                            @click="enableTheme('qiongbi')">启用
+                                    </button>
+                                    <button class="shyButton" v-if="theme == 'qiongbi'" disabled>当前主题</button>
+                                    <a class="button shyButton warning" href="/admin/template/qiongbi">修改模板</a>
+                                </footer>
+                            </article>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div v-if="error">
-                <span class="button stack error icon-help-circled">{{error}}</span>
-            </div>
-
-            <button @click="doinstall">保存配置</button>
         </footer>
     </article>
-
-    <!--<article class="card">-->
-        <!--<header>-->
-            <!--<h3>安全配置</h3>-->
-        <!--</header>-->
-        <!--<footer>-->
-            <!--<fieldset class="flex">-->
-                <!--<label>-->
-                    <!--<input />-->
-                <!--</label>-->
-                <!--<label>-->
-                    <!--<textarea placeholder="黑名单 IP 列表"></textarea>-->
-                <!--</label>-->
-                <!--<label>-->
-                    <!--<blockquote class="tip">-->
-                        <!--该配置为您提供扫码支付功能，请确保填写正确。-->
-                    <!--</blockquote>-->
-                <!--</label>-->
-            <!--</fieldset>-->
-        <!--</footer>-->
-    <!--</article>-->
-
-    <article class="card">
-        <header>
-            <h3>主题模板</h3>
-        </header>
-        <footer>
-            <div class="flex four">
-                <div>
-                    <article class="card">
-                        <img src="/static/img/forest.jpg">
-                        <footer>
-                            <h3>默认主题</h3>
-                            <button class="shyButton" v-if="config.theme != 'default'" @click="enableTheme('default')">启用</button>
-                            <button class="shyButton" v-if="config.theme == 'default'" disabled>当前主题</button>
-                            <a class="button shyButton warning" href="/admin/template/default">修改模板</a>
-                        </footer>
-                    </article>
-                </div>
-                <div>
-                    <article class="card">
-                        <img src="/static/img/forest.jpg">
-                        <footer>
-                            <h3>穷B主题</h3>
-                            <button class="shyButton" v-if="config.theme != 'qiongbi'" @click="enableTheme('qiongbi')">启用</button>
-                            <button class="shyButton" v-if="config.theme == 'qiongbi'" disabled>当前主题</button>
-                            <a class="button shyButton warning" href="/admin/template/qiongbi">修改模板</a>
-                        </footer>
-                    </article>
-                </div>
-            </div>
-        </footer>
-    </article>
-
 </main>
 
 #include("./_footer.html")

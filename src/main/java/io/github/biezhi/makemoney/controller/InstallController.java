@@ -9,6 +9,7 @@ import io.github.biezhi.makemoney.bootstrap.Constant;
 import io.github.biezhi.makemoney.entities.model.Option;
 import io.github.biezhi.makemoney.entities.param.InstallParam;
 import io.github.biezhi.makemoney.service.MakeMoneyService;
+import io.github.biezhi.makemoney.service.OptionService;
 import io.github.biezhi.makemoney.thirdparty.PayApi;
 import io.github.biezhi.makemoney.utils.Utils;
 import io.github.biezhi.makemoney.verification.Validator;
@@ -32,6 +33,9 @@ public class InstallController {
     @Inject
     private MakeMoneyService makeMoneyService;
 
+    @Inject
+    private OptionService optionService;
+
     @GetRoute("install")
     public String install(Response response) {
         if (Utils.isInstall()) {
@@ -52,13 +56,19 @@ public class InstallController {
         Validator.installParam(installParam);
 
         delete().from(Option.class).execute();
-        makeMoneyService.updateConfig(installParam);
+        optionService.updatePayConfig(installParam);
 
-        makeMoneyService.saveOption(Constant.TODAY_COUNT, "0");
-        makeMoneyService.saveOption(Constant.TODAY_AMOUNT, "0");
-        makeMoneyService.saveOption(Constant.TOTAL_COUNT, "0");
-        makeMoneyService.saveOption(Constant.TOTAL_AMOUNT, "0");
+        optionService.save(Constant.TODAY_COUNT, "0");
+        optionService.save(Constant.TOTAL_COUNT, "0");
+        optionService.save(Constant.TODAY_AMOUNT, "0");
+        optionService.save(Constant.TOTAL_AMOUNT, "0");
+        optionService.save(Constant.PAGE_SIZE, "10");
+        optionService.save(Constant.COMMENT_MIN_SIZE, "4");
+        optionService.save(Constant.COMMENT_MAX_SIZE, "500");
+        optionService.save(Constant.AMOUNT_MIN, "0.1");
+        optionService.save(Constant.AMOUNT_MAX, "1000");
 
+        Bootstrap.refreshConfig();
         Bootstrap.payApi = PayApi.getPayApi(installParam.getPlatform());
 
         File lock = new File(Utils.CLASSPATH + "install.lock");

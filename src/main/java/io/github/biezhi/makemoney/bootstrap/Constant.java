@@ -94,6 +94,31 @@ public interface Constant {
     String TOTAL_COUNT = "total_count";
 
     /**
+     * 每页条数
+     */
+    String PAGE_SIZE = "page_size";
+
+    /**
+     * 留言最小字数
+     */
+    String COMMENT_MIN_SIZE = "comment_min_size";
+
+    /**
+     * 留言最大字数
+     */
+    String COMMENT_MAX_SIZE = "comment_max_size";
+
+    /**
+     * 最小打赏金额
+     */
+    String AMOUNT_MIN = "amount_min";
+
+    /**
+     * 最大打赏金额
+     */
+    String AMOUNT_MAX = "amount_max";
+
+    /**
      * 查询等待查询次数，20次每次 3 秒，共 1 分钟
      */
     int MAX_WAIT_COUNT = 20;

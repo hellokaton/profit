@@ -20,6 +20,7 @@ import io.github.biezhi.makemoney.entities.param.OrderParam;
 import io.github.biezhi.makemoney.entities.param.PasswordParam;
 import io.github.biezhi.makemoney.entities.param.TemplateParam;
 import io.github.biezhi.makemoney.service.MakeMoneyService;
+import io.github.biezhi.makemoney.service.OptionService;
 import io.github.biezhi.makemoney.thirdparty.PayApi;
 import io.github.biezhi.makemoney.utils.Utils;
 
@@ -44,16 +45,18 @@ public class AdminController {
     @Inject
     private MakeMoneyService makeMoneyService;
 
+    @Inject
+    private OptionService optionService;
+
     @GetRoute("index")
     public String index() {
         return "admin/index.html";
     }
 
-    @GetRoute("config")
+    @GetRoute("options")
     @JSON
-    public Map<String, String> config() {
-        Bootstrap.GLOBAL_CONFIG.put("theme", IndexController.THEME_NAME);
-        return Bootstrap.GLOBAL_CONFIG;
+    public Map<String, String> getOptions() {
+        return Bootstrap.getGlobalConfig();
     }
 
     @GetRoute("template/:theme")
@@ -116,12 +119,25 @@ public class AdminController {
         return RestResponse.ok();
     }
 
-    @PostRoute("config")
+    /**
+     * 修改支付配置
+     */
+    @PostRoute("pay_config")
     @JSON
-    public RestResponse updateConfig(@BodyParam InstallParam installParam) {
+    public RestResponse updatePayConfig(@BodyParam InstallParam installParam) {
         installParam.setUpdate(true);
-        makeMoneyService.updateConfig(installParam);
+        optionService.updatePayConfig(installParam);
         Bootstrap.payApi = PayApi.getPayApi(installParam.getPlatform());
+        return RestResponse.ok();
+    }
+
+    /**
+     * 修改通用配置
+     */
+    @PostRoute("common_config")
+    @JSON
+    public RestResponse updateOptions(@BodyParam Map<String, String> options) {
+        optionService.updateOptions(options);
         return RestResponse.ok();
     }
 
@@ -129,7 +145,7 @@ public class AdminController {
     @JSON
     public RestResponse updateBlackList(@BodyParam InstallParam installParam) {
         installParam.setUpdate(true);
-        makeMoneyService.updateConfig(installParam);
+        optionService.updatePayConfig(installParam);
         return RestResponse.ok();
     }
 
