@@ -120,12 +120,10 @@ upgrade(){
     mv upgrade_tmp/resources/templates/admin ./resources/templates
     mv upgrade_tmp/resources/templates/*.html ./resources/templates
 
-    echo '升级完毕'
+    echo '升级完毕, 请执行 sh tool restart 重启 profit !'
 
     rm -rf upgrade_tmp
     rm -rf profit.tar.gz
-
-    start
 }
 
 case "$1" in
