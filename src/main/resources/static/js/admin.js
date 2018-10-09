@@ -1,27 +1,27 @@
 new Vue({
-    el: '#app',
+    el: "#app",
     data: {
-        error: '',
-        theme: '',
+        error: "",
+        theme: "",
         common: {
-            page_size: '10',
-            comment_min_size: '4',
-            comment_max_size: '500',
-            amount_min: '0.1',
-            amount_max: '1000'
+            page_size: "10",
+            comment_min_size: "4",
+            comment_max_size: "500",
+            amount_min: "0.1",
+            amount_max: "1000"
         },
         payConfig: {
-            platform: '',
-            youzanClientId: '',
-            youzanClientSecret: '',
-            youzanShopId: '',
-            payJSMchid: '',
-            payJSSecret: ''
+            platform: "",
+            youzanClientId: "",
+            youzanClientSecret: "",
+            youzanShopId: "",
+            payJSMchid: "",
+            payJSSecret: ""
         }
     },
     mounted: function () {
         var vm = this;
-        axios.get('/admin/options')
+        axios.get("/admin/options")
             .then(function (response) {
                 var data = response.data;
                 vm.theme = data.theme;
@@ -45,42 +45,42 @@ new Vue({
     methods: {
         savePayConfig: function () {
             var vm = this;
-            if (vm.payConfig.platform === 'youzan' && vm.payConfig.youzanClientId === '') {
-                vm.error = '请输入 ClientID';
+            if (vm.payConfig.platform === "youzan" && vm.payConfig.youzanClientId === "") {
+                vm.error = "请输入 ClientID";
                 vm.$refs.youzanClientId.focus();
                 return;
             }
-            if (vm.payConfig.platform === 'youzan' && vm.payConfig.youzanClientSecret === '') {
-                vm.error = '请输入 ClientSecret';
+            if (vm.payConfig.platform === "youzan" && vm.payConfig.youzanClientSecret === "") {
+                vm.error = "请输入 ClientSecret";
                 vm.$refs.youzanClientSecret.focus();
                 return;
             }
-            if (vm.payConfig.platform === 'youzan' && vm.payConfig.youzanShopId === '') {
-                vm.error = '请输入授权店铺 ID';
+            if (vm.payConfig.platform === "youzan" && vm.payConfig.youzanShopId === "") {
+                vm.error = "请输入授权店铺 ID";
                 vm.$refs.youzanShopId.focus();
                 return;
             }
 
-            if (vm.payConfig.platform === 'payjs' && vm.payConfig.payJSMchid === '') {
-                vm.error = '请输入商户号';
+            if (vm.payConfig.platform === "payjs" && vm.payConfig.payJSMchid === "") {
+                vm.error = "请输入商户号";
                 vm.$refs.payJSMchid.focus();
                 return;
             }
 
-            if (vm.payConfig.platform === 'payjs' && vm.payConfig.payJSSecret === '') {
-                vm.error = '请输入API密钥';
+            if (vm.payConfig.platform === "payjs" && vm.payConfig.payJSSecret === "") {
+                vm.error = "请输入API密钥";
                 vm.$refs.payJSSecret.focus();
                 return;
             }
 
-            axios.post('/admin/pay_config', vm.payConfig).then(function (response) {
+            axios.post("/admin/pay_config", vm.payConfig).then(function (response) {
                 var data = response.data;
                 if (data.success) {
-                    alert('配置保存成功！');
+                    alert("配置保存成功！");
                     window.location.reload();
                 } else {
                     console.log(data);
-                    vm.error = data.msg || '保存失败!';
+                    vm.error = data.msg || "保存失败!";
                 }
             }).catch(function (error) {
                 console.log(error);
@@ -88,28 +88,28 @@ new Vue({
         },
         saveCommonConfig: function () {
             var vm = this;
-            axios.post('/admin/common_config', vm.common).then(function (response) {
+            axios.post("/admin/common_config", vm.common).then(function (response) {
                 var data = response.data;
                 if (data.success) {
-                    alert('配置保存成功！');
+                    alert("配置保存成功！");
                     window.location.reload();
                 } else {
                     console.log(data);
-                    vm.error = data.msg || '保存失败!';
+                    vm.error = data.msg || "保存失败!";
                 }
             }).catch(function (error) {
                 console.log(error);
             });
         },
         enableTheme: function (theme) {
-            if (window.confirm('确定使用该主题吗？')) {
-                axios.post('/admin/theme/' + theme).then(function (response) {
+            if (window.confirm("确定使用该主题吗？")) {
+                axios.post("/admin/theme/" + theme).then(function (response) {
                     var data = response.data;
                     if (data.success) {
-                        alert('主题启用成功，请点击【查看网站】预览！');
+                        alert("主题启用成功，请点击【查看网站】预览！");
                         window.location.reload();
                     } else {
-                        vm.error = data.msg || '主题启用失败!';
+                        vm.error = data.msg || "主题启用失败!";
                     }
                 }).catch(function (error) {
                     console.log(error);
@@ -120,7 +120,5 @@ new Vue({
 });
 
 function showUpdatePwd() {
-    document.querySelector('.modal').style = 'display: block;';
-    // var mods = document.querySelectorAll('.modal > [type=checkbox]');
-    // [].forEach.call(mods, function(mod){ mod.checked = false; });
+    document.querySelector(".modal").style = "display: block;";
 }

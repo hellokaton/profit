@@ -1,12 +1,12 @@
 $(function () {
     $("#customAmount").keyup(function () {
         var amount = $(this).val()
-        amount = amount.replace(/\D|^0/g, '')
+        amount = amount.replace(/\D|^0/g, "")
         $(this).val(amount)
 
         $("#amount").val(amount)
     }).bind("paste", function () {
-        $(this).val($(this).val().replace(/\D|^0/g, ''))
+        $(this).val($(this).val().replace(/\D|^0/g, ""))
     })
 
     $(".amount").click(function () {
@@ -50,14 +50,14 @@ $(function () {
                     interval: 3000,
                     tradeNo: data.tradeNo,
                     success: function () {
-                        showmsg('支付成功，感谢你的打赏 (づ￣ 3￣)づ', "info")
+                        showmsg("支付成功，感谢你的打赏 (づ￣ 3￣)づ", "info")
                         setTimeout(function () {
                             location.href = "/"
                         }, 3000)
                     },
                     timeout: function (msg) {
                         // 等待超时
-                        showmsg(msg, "error")
+                        showmsg(msg, "error");
                         setTimeout(function () {
                             window.location.href = "/"
                         }, 3000)
@@ -71,18 +71,6 @@ $(function () {
 
         return false;
     });
-
-    // $('.js-order-cancel').click(function () {
-    //     var params = 'orderid=' + $(this).data('orderid');
-    //     $.post("/app/do.asp?action=cancel", params,
-    //         function (data) {
-    //             $('.js-order-pop').hide();
-    //             showmsg(data.msg.content, "info")
-    //         }, "json"
-    //     );
-    //     return false;
-    // });
-
 });
 
 function showmsg(msg, type) {
