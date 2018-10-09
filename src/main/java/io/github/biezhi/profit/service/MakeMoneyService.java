@@ -127,18 +127,19 @@ public class MakeMoneyService {
     public void execCallback(Platform platform, String body) {
         if (Platform.YOUZAN.equals(platform)) {
             CallbackTrade callbackTrade = JsonKit.formJson(body, CallbackTrade.class);
-            if (!callbackTrade.getTest() && "trade_TradePaid".equals(callbackTrade.getType())) {
+
+            if (!callbackTrade.getTest() && "trade_TradePaid".equals(callbackTrade.getType())
+                    && "PAID".equals(callbackTrade.getStatus())) {
+
                 // 支付成功
-                if ("PAID".equals(callbackTrade.getStatus())) {
-                    String msg = Utils.decode(callbackTrade.getMsg());
-                    log.info("有赞支付回调msg: {}", msg);
+                String msg = Utils.decode(callbackTrade.getMsg());
+                log.info("有赞支付回调msg: {}", msg);
 
-                    int start = msg.indexOf("qr_id\"");
-                    int end   = msg.indexOf(",", start);
+                int start = msg.indexOf("qr_id\"");
+                int end   = msg.indexOf(",", start);
 
-                    String qrId = msg.substring((start + 7), end);
-                    updatePaySuccess(qrId, OrderStatus.PAY_SUCCESS.getStatus());
-                }
+                String qrId = msg.substring((start + 7), end);
+                updatePaySuccess(qrId, OrderStatus.PAY_SUCCESS.getStatus());
             }
         }
     }

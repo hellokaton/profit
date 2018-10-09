@@ -98,10 +98,10 @@ public class IndexController {
                 return RestResponse.fail("非法请求");
             }
             return RestResponse.ok(makeMoneyService.createOrder(order));
+        } catch (ValidatorException e) {
+            return RestResponse.fail(e.getMessage());
         } catch (Exception e) {
-            if (!(e instanceof ValidatorException)) {
-                log.error("支付出现异常", e);
-            }
+            log.error("支付出现异常", e);
             return RestResponse.fail(e.getMessage());
         }
     }
