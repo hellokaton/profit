@@ -3,7 +3,7 @@ package io.github.biezhi.profit;
 import com.blade.Blade;
 import com.blade.security.web.csrf.CsrfMiddleware;
 import com.blade.security.web.csrf.CsrfOption;
-import com.blade.security.web.xss.XssMiddleware;
+import io.github.biezhi.profit.verification.XssMiddleware;
 
 /**
  * Profit Main
