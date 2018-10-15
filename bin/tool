@@ -113,8 +113,7 @@ upgrade(){
 
     mv upgrade_tmp/lib .
     mv upgrade_tmp/profit-latest.jar .
-    mv upgrade_tmp/tool .
-    chmod +x tool
+
     mv upgrade_tmp/resources/static ./resources
     mv upgrade_tmp/resources/*.properties ./resources
     mv upgrade_tmp/resources/templates/admin ./resources/templates
@@ -124,6 +123,8 @@ upgrade(){
 
     rm -rf upgrade_tmp
     rm -rf profit.tar.gz
+    mv upgrade_tmp/tool .
+    chmod +x tool
 }
 
 case "$1" in
