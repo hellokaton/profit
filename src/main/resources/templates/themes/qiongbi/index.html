@@ -98,7 +98,7 @@
                     <img itemprop="photo" src='https://gravatar.com/avatar/c99587a1771773df78672d50208e7e2c/100'>
                     <span class='fn' itemprop="name">${item.payUser}</span>于
                     <time datetime='2018/4/13 15:49:26'>${date(item.created)}</time>
-                    向他捐赠<strong class='sum'>${money(item.money)}</strong>&yen;
+                    向他捐赠<strong class='sum'>${money(item.money)}</strong>&yen; #if(item.orderStatus == 0)&nbsp;&nbsp;<span>未支付</span>#end
                 </p>
                 <p class='says'>
                     <i class='qt-l'></i>${item.payComment}<i class='qt-r'></i>
