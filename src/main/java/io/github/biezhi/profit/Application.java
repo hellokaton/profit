@@ -3,6 +3,7 @@ package io.github.biezhi.profit;
 import com.blade.Blade;
 import com.blade.security.web.csrf.CsrfMiddleware;
 import com.blade.security.web.csrf.CsrfOption;
+import com.blade.security.web.xss.XssMiddleware;
 
 /**
  * Profit Main
@@ -17,7 +18,10 @@ public class Application {
         csrfOption.getUrlExclusions().add("/callback/youzan");
         csrfOption.getUrlExclusions().add("/callback/payjs");
 
-        Blade.of().use(new CsrfMiddleware(csrfOption)).start(Application.class, args);
+        Blade.of()
+                .use(new CsrfMiddleware(csrfOption))
+                .use(new XssMiddleware())
+                .start(Application.class, args);
     }
 
 }
