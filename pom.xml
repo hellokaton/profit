@@ -9,10 +9,10 @@
     <version>latest</version>
 
     <properties>
-        <blade.version>2.0.13.BETA</blade.version>
+        <blade.version>2.0.14.RELEASE</blade.version>
         <blade-tpl.version>0.1.3</blade-tpl.version>
         <blade-gson.version>0.0.2</blade-gson.version>
-        <anima.version>0.2.5</anima.version>
+        <anima.version>0.2.6</anima.version>
         <sqlite.version>3.23.1</sqlite.version>
         <request.version>0.0.1</request.version>
         <lombok.version>1.16.22</lombok.version>
